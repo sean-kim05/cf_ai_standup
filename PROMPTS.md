@@ -85,4 +85,11 @@ Do not add any co-authored-by trailers to git commits.
 
 ---
 
-Note: Additional prompts will be appended as development continues.
+## Prompt 4 — Final Cleanup
+
+Verify the deployed project is complete:
+1. Confirm both live URLs are working: https://cf-ai-standup.pages.dev and https://cf-ai-standup.skim8705.workers.dev
+2. Update README.md with the confirmed live Pages URL
+3. Ensure the repo is clean with no secrets, no debug code, and no placeholder text
+4. Append this prompt to PROMPTS.md as Prompt 4 and commit
+Do not add any co-authored-by trailers to git commits.
