@@ -54,4 +54,21 @@ Do not add any co-authored-by trailers to git commits. Commit with only my name 
 
 ---
 
+## Prompt 2 — Polish
+
+Add these polish features to cf_ai_standup:
+- Copy to clipboard button on the formatted standup output
+- Date header showing today's date on the standup
+- If the user hasn't done a standup today show "No standup yet today" in the history
+- Weekly summary appears in a modal overlay
+- Make the UI fully mobile responsive
+- Add a loading spinner while AI is generating
+- Add a character counter on the input textarea
+- If the input is empty and user clicks Generate show an inline error message
+
+Then append this prompt to PROMPTS.md as Prompt 2.
+Do not add any co-authored-by trailers to git commits.
+
+---
+
 Note: Additional prompts will be appended as development continues.
