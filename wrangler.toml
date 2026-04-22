@@ -11,4 +11,4 @@ class_name = "StandupMemory"
 
 [[migrations]]
 tag = "v1"
-new_classes = ["StandupMemory"]
+new_sqlite_classes = ["StandupMemory"]

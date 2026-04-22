@@ -71,4 +71,18 @@ Do not add any co-authored-by trailers to git commits.
 
 ---
 
+## Prompt 3 — Deployment
+
+Deploy cf_ai_standup to Cloudflare:
+
+1. Run `wrangler deploy` to deploy the Worker and Durable Object to `https://cf-ai-standup.skim8705.workers.dev`
+2. Update `API_URL` in `public/index.html` from `http://localhost:8787` to `https://cf-ai-standup.skim8705.workers.dev`
+3. Update README.md with the live Worker URL and a placeholder for the Cloudflare Pages URL
+4. Deploy the frontend (`public/`) to Cloudflare Pages via GitHub integration
+5. Update README.md with the live Pages URL once available
+6. Append this prompt to PROMPTS.md as Prompt 3 and commit all changes
+Do not add any co-authored-by trailers to git commits.
+
+---
+
 Note: Additional prompts will be appended as development continues.
