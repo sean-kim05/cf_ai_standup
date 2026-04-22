@@ -320,7 +320,7 @@
 <body>
 
 <header>
-  <div class="header-icon">⚡</div>
+  <div class="header-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
   <div>
     <h1>Briefly</h1>
     <p>AI-powered daily standups</p>
@@ -369,6 +369,7 @@
     <div class="sidebar-header">
       <span class="sidebar-title">History</span>
       <button class="btn btn-ghost" id="weeklyBtn" onclick="generateWeekly()" style="padding:6px 12px;font-size:12px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         Weekly Summary
       </button>
     </div>
@@ -383,7 +384,7 @@
   <div class="modal">
     <div class="modal-header">
       <span class="modal-title">Weekly Summary</span>
-      <button class="modal-close" onclick="closeModal()">×</button>
+      <button class="modal-close" onclick="closeModal()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
     <div class="modal-body">
       <p id="weeklySummaryText"></p>
@@ -479,7 +480,7 @@
     const text = document.getElementById('resultText').innerText;
     navigator.clipboard.writeText(text).then(() => {
       const btn = document.getElementById('copyBtn');
-      btn.textContent = '✓ Copied!';
+      btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
       btn.classList.add('copied');
       setTimeout(() => {
         btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy`;
