@@ -38,25 +38,35 @@
       justify-content: space-between;
       border-bottom: 1px solid var(--border);
     }
-
     .header-left { display: flex; align-items: center; gap: 9px; }
+    .header-icon { color: var(--accent); display: flex; align-items: center; }
+    header h1 { font-size: 15px; font-weight: 600; letter-spacing: -0.02em; }
+    .header-date { font-size: 12px; color: var(--text2); }
 
-    .header-icon {
-      color: var(--accent);
+    /* Mode tabs */
+    .mode-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+    }
+    .mode-tab {
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--text2);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.15s;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
       display: flex;
       align-items: center;
+      gap: 7px;
     }
-
-    header h1 {
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-    }
-
-    .header-date {
-      font-size: 12px;
-      color: var(--text2);
-    }
+    .mode-tab:hover { color: var(--text); }
+    .mode-tab.active { color: var(--text); border-bottom-color: var(--accent); }
 
     .layout {
       display: grid;
@@ -64,7 +74,6 @@
       max-width: 1000px;
       margin: 0 auto;
       padding: 40px 32px 80px;
-      gap: 0;
     }
 
     .main {
@@ -74,8 +83,29 @@
       padding-right: 40px;
     }
 
-    .input-wrap { position: relative; }
+    /* Format selector */
+    .format-pills {
+      display: flex;
+      gap: 6px;
+    }
+    .format-pill {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text2);
+      transition: all 0.15s;
+    }
+    .format-pill:hover { border-color: var(--border2); color: var(--text); }
+    .format-pill.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
 
+    .input-wrap { position: relative; }
     textarea {
       background: var(--bg2);
       border: 1px solid var(--border);
@@ -86,7 +116,7 @@
       line-height: 1.7;
       padding: 14px 14px 36px;
       resize: vertical;
-      min-height: 160px;
+      min-height: 140px;
       transition: border-color 0.15s;
       width: 100%;
     }
@@ -103,19 +133,9 @@
       align-items: center;
       pointer-events: none;
     }
-
-    .error-msg {
-      font-size: 12px;
-      color: var(--error);
-      display: none;
-    }
+    .error-msg { font-size: 12px; color: var(--error); display: none; }
     .error-msg.visible { display: block; }
-
-    .char-count {
-      font-size: 11px;
-      color: var(--text3);
-      margin-left: auto;
-    }
+    .char-count { font-size: 11px; color: var(--text3); margin-left: auto; }
     .char-count.warn { color: var(--error); }
 
     .btn {
@@ -131,14 +151,9 @@
       gap: 7px;
       letter-spacing: -0.01em;
     }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-    }
+    .btn-primary { background: var(--accent); color: #fff; }
     .btn-primary:hover { background: var(--accent-hover); }
     .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-
     .btn-ghost {
       background: transparent;
       color: var(--text2);
@@ -157,6 +172,7 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* Result card */
     .result-card {
       background: var(--bg2);
       border: 1px solid var(--border);
@@ -165,7 +181,6 @@
       display: none;
     }
     .result-card.visible { display: block; }
-
     .result-header {
       display: flex;
       align-items: center;
@@ -173,16 +188,10 @@
       padding: 10px 14px;
       border-bottom: 1px solid var(--border);
     }
+    .result-label { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.07em; }
+    .result-actions { display: flex; gap: 6px; }
 
-    .result-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text2);
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-    }
-
-    .copy-btn {
+    .icon-btn {
       padding: 3px 9px;
       background: transparent;
       border: 1px solid var(--border);
@@ -195,21 +204,16 @@
       align-items: center;
       gap: 5px;
     }
-    .copy-btn:hover { color: var(--text); border-color: var(--border2); }
-    .copy-btn.copied { color: var(--success); border-color: var(--success); }
+    .icon-btn:hover { color: var(--text); border-color: var(--border2); }
+    .icon-btn.active { color: var(--success); border-color: var(--success); }
 
     .result-body { padding: 18px; }
+    .result-text { font-size: 14px; line-height: 1.85; white-space: pre-wrap; color: var(--text); }
+    .result-text .line-label { color: var(--accent); font-weight: 600; }
 
-    .result-text {
-      font-size: 14px;
-      line-height: 1.85;
-      white-space: pre-wrap;
-      color: var(--text);
-    }
-    .result-text .line-label {
-      color: var(--accent);
-      font-weight: 600;
-    }
+    /* Cursor blink for streaming */
+    .cursor { display: inline-block; width: 2px; height: 14px; background: var(--accent); animation: blink 0.8s step-end infinite; vertical-align: text-bottom; margin-left: 1px; }
+    @keyframes blink { 50% { opacity: 0; } }
 
     /* Sidebar */
     .sidebar {
@@ -219,72 +223,120 @@
       flex-direction: column;
       gap: 16px;
     }
-
-    .sidebar-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .sidebar-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text2);
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-    }
-
+    .sidebar-header { display: flex; align-items: center; justify-content: space-between; }
+    .sidebar-label { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.07em; }
     .history-list { display: flex; flex-direction: column; }
 
     .history-item {
       padding: 12px 0;
       border-bottom: 1px solid var(--border);
-      cursor: pointer;
-      transition: opacity 0.15s;
+      position: relative;
     }
     .history-item:last-child { border-bottom: none; }
-    .history-item:hover { opacity: 0.65; }
+    .history-item-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+    .history-date { font-size: 11px; font-weight: 600; color: var(--accent); display: flex; align-items: center; gap: 6px; }
+    .history-preview {
+      font-size: 12px; color: var(--text2); line-height: 1.5;
+      overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      cursor: pointer;
+    }
+    .history-preview:hover { color: var(--text); }
 
-    .history-date {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--accent);
-      margin-bottom: 4px;
+    .history-actions { display: flex; gap: 4px; opacity: 0; transition: opacity 0.15s; }
+    .history-item:hover .history-actions { opacity: 1; }
+    .history-action-btn {
+      padding: 2px 6px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text3);
+      font-size: 10px;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
+      transition: all 0.15s;
     }
+    .history-action-btn:hover { color: var(--text2); border-color: var(--border2); }
+    .history-action-btn.del:hover { color: var(--error); border-color: var(--error); }
 
-    .history-preview {
-      font-size: 12px;
-      color: var(--text2);
-      line-height: 1.5;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-    }
-
-    .history-empty {
-      font-size: 12px;
-      color: var(--text3);
-      padding: 4px 0;
-    }
+    .history-empty { font-size: 12px; color: var(--text3); padding: 4px 0; }
 
     .today-badge {
-      display: inline-flex;
-      align-items: center;
+      display: inline-flex; align-items: center;
       background: color-mix(in srgb, var(--success) 10%, transparent);
       color: var(--success);
-      font-size: 9px;
-      font-weight: 700;
-      padding: 1px 5px;
-      border-radius: 3px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+      font-size: 9px; font-weight: 700;
+      padding: 1px 5px; border-radius: 3px;
+      text-transform: uppercase; letter-spacing: 0.06em;
     }
 
-    /* Modal */
+    /* Team mode */
+    .team-panel { display: flex; flex-direction: column; gap: 20px; }
+
+    .room-setup {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .room-setup h3 { font-size: 14px; font-weight: 600; }
+    .room-setup p { font-size: 12px; color: var(--text2); }
+
+    .input-row { display: flex; gap: 8px; }
+    .text-input {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 13px;
+      font-family: inherit;
+      padding: 8px 12px;
+      transition: border-color 0.15s;
+    }
+    .text-input:focus { outline: none; border-color: var(--border2); }
+    .text-input::placeholder { color: var(--text3); }
+
+    .room-code {
+      font-family: monospace;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+
+    .team-standups { display: flex; flex-direction: column; gap: 12px; }
+    .team-member-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .team-member-header {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .team-member-avatar {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: #fff;
+      flex-shrink: 0;
+    }
+    .team-member-name { font-size: 13px; font-weight: 600; }
+    .team-member-date { font-size: 11px; color: var(--text2); margin-left: auto; }
+    .team-member-body { padding: 14px; font-size: 13px; line-height: 1.8; white-space: pre-wrap; color: var(--text2); }
+    .team-member-body .line-label { color: var(--accent); font-weight: 600; }
+    .team-empty { font-size: 13px; color: var(--text3); text-align: center; padding: 40px 0; }
+
+    /* Edit modal */
     .modal-overlay {
       position: fixed; inset: 0;
       background: rgba(0,0,0,0.85);
@@ -296,81 +348,44 @@
       padding: 24px;
     }
     .modal-overlay.visible { display: flex; }
-
     .modal {
       background: var(--bg2);
       border: 1px solid var(--border2);
       border-radius: 10px;
       width: 100%;
       max-width: 520px;
-      max-height: 80vh;
       display: flex;
       flex-direction: column;
       box-shadow: 0 40px 100px rgba(0,0,0,0.9);
       animation: fadeUp 0.15s ease;
     }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .modal-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--border);
-    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--border); }
     .modal-title { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
-
-    .modal-close {
-      background: transparent; border: none;
-      color: var(--text2); cursor: pointer;
-      display: flex; align-items: center;
-      padding: 3px; border-radius: 4px;
-      transition: color 0.15s;
-    }
+    .modal-close { background: transparent; border: none; color: var(--text2); cursor: pointer; display: flex; align-items: center; padding: 3px; border-radius: 4px; transition: color 0.15s; }
     .modal-close:hover { color: var(--text); }
+    .modal-body { padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+    .modal-body textarea { min-height: 200px; padding-bottom: 14px; }
+    .modal-footer { padding: 12px 18px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; }
 
-    .modal-body {
-      padding: 20px;
-      overflow-y: auto;
-      flex: 1;
-    }
-    .modal-body p {
-      font-size: 14px;
-      line-height: 1.85;
-      white-space: pre-wrap;
-      color: var(--text2);
-    }
-
-    .modal-footer {
-      padding: 12px 18px;
-      border-top: 1px solid var(--border);
-      display: flex; justify-content: flex-end;
-    }
+    /* Weekly modal */
+    .weekly-modal-body { padding: 20px; overflow-y: auto; max-height: 60vh; }
+    .weekly-modal-body p { font-size: 14px; line-height: 1.85; white-space: pre-wrap; color: var(--text2); }
 
     /* Status bar */
     .status-bar {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
+      position: fixed; bottom: 0; left: 0; right: 0;
       padding: 8px 32px;
       border-top: 1px solid var(--border);
-      display: flex;
-      gap: 20px;
-      font-size: 11px;
-      color: var(--text3);
+      display: flex; gap: 20px;
+      font-size: 11px; color: var(--text3);
       background: var(--bg);
     }
-    .status-dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--success);
-      display: inline-block;
-      margin-right: 5px;
-      vertical-align: middle;
-    }
+    .status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--success); display: inline-block; margin-right: 5px; vertical-align: middle; }
 
     @media (max-width: 720px) {
       header { padding: 14px 20px; }
+      .mode-tabs { padding: 0 20px; }
       .layout { grid-template-columns: 1fr; padding: 28px 20px 80px; }
       .main { padding-right: 0; }
       .sidebar { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 28px; }
@@ -389,14 +404,28 @@
   <span class="header-date" id="headerDate"></span>
 </header>
 
-<div class="layout">
+<div class="mode-tabs">
+  <button class="mode-tab active" id="tabPersonal" onclick="switchMode('personal')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    Personal
+  </button>
+  <button class="mode-tab" id="tabTeam" onclick="switchMode('team')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    Team
+  </button>
+</div>
+
+<!-- PERSONAL MODE -->
+<div id="personalMode" class="layout">
   <div class="main">
+    <div class="format-pills">
+      <button class="format-pill active" data-format="standard" onclick="setFormat('standard')">Standard</button>
+      <button class="format-pill" data-format="bullets" onclick="setFormat('bullets')">Bullets</button>
+      <button class="format-pill" data-format="jira" onclick="setFormat('jira')">Jira</button>
+    </div>
+
     <div class="input-wrap">
-      <textarea
-        id="standup-input"
-        placeholder="What did you work on? Paste tasks, commits, or notes — AI will format your standup."
-        maxlength="2000"
-      ></textarea>
+      <textarea id="standup-input" placeholder="What did you work on? Paste tasks, commits, or notes — AI will format your standup." maxlength="2000"></textarea>
       <div class="input-meta">
         <span class="error-msg" id="emptyError">Please enter something before generating.</span>
         <span class="char-count" id="charCount">0 / 2000</span>
@@ -413,10 +442,16 @@
     <div class="result-card" id="resultCard">
       <div class="result-header">
         <span class="result-label">Generated Standup</span>
-        <button class="copy-btn" id="copyBtn" onclick="copyStandup()">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-          Copy
-        </button>
+        <div class="result-actions">
+          <button class="icon-btn" id="slackBtn" onclick="exportSlack()">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg>
+            Slack
+          </button>
+          <button class="icon-btn" id="copyBtn" onclick="copyStandup()">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copy
+          </button>
+        </div>
       </div>
       <div class="result-body">
         <div class="result-text" id="resultText"></div>
@@ -438,209 +473,480 @@
   </div>
 </div>
 
+<!-- TEAM MODE -->
+<div id="teamMode" style="display:none;" class="layout" style="grid-template-columns:1fr;">
+  <div class="team-panel" style="max-width:680px;">
+
+    <!-- Room not set -->
+    <div id="roomSetup">
+      <div class="room-setup">
+        <h3>Create or join a room</h3>
+        <p>Share a room code with your team to see everyone's standups in one place.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="input-row">
+            <input class="text-input" id="teamNameInput" placeholder="Your display name" />
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button class="btn btn-primary" onclick="createRoom()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Create Room
+            </button>
+            <span style="font-size:12px;color:var(--text3);">or</span>
+            <div class="input-row" style="flex:1;">
+              <input class="text-input" id="roomCodeInput" placeholder="Enter room code" style="text-transform:uppercase;letter-spacing:0.1em;font-family:monospace;" maxlength="6" />
+              <button class="btn btn-ghost" onclick="joinRoom()">Join</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Room active -->
+    <div id="roomActive" style="display:none;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+        <div>
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">Room Code</div>
+          <div class="room-code" id="activeRoomCode"></div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-ghost" onclick="copyRoomCode()" style="font-size:12px;padding:6px 12px;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copy Link
+          </button>
+          <button class="btn btn-ghost" onclick="leaveRoom()" style="font-size:12px;padding:6px 12px;color:var(--error);border-color:var(--error);">Leave</button>
+        </div>
+      </div>
+
+      <div class="format-pills" style="margin-bottom:16px;">
+        <button class="format-pill active" data-format="standard" onclick="setTeamFormat('standard')">Standard</button>
+        <button class="format-pill" data-format="bullets" onclick="setTeamFormat('bullets')">Bullets</button>
+        <button class="format-pill" data-format="jira" onclick="setTeamFormat('jira')">Jira</button>
+      </div>
+
+      <div class="input-wrap" style="margin-bottom:12px;">
+        <textarea id="team-standup-input" placeholder="What did you work on today?" maxlength="2000" style="min-height:100px;"></textarea>
+      </div>
+      <div style="margin-bottom:28px;">
+        <button class="btn btn-primary" id="teamGenerateBtn" onclick="generateTeamStandup()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4m2-2h-4M4 17v2m1-1H3"/></svg>
+          Post to Room
+        </button>
+      </div>
+
+      <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:14px;">
+        Today's Team Standups
+        <button onclick="loadTeamStandups()" style="background:none;border:none;color:var(--text3);cursor:pointer;margin-left:8px;font-size:10px;">↻ refresh</button>
+      </div>
+      <div class="team-standups" id="teamStandups">
+        <div class="team-empty">No standups yet today</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit modal -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Edit Standup</span>
+      <button class="modal-close" onclick="closeEditModal()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <textarea id="editText" style="min-height:200px;padding-bottom:14px;" placeholder="Edit your standup..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeEditModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEdit()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Weekly summary modal -->
+<div class="modal-overlay" id="weeklyModal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Weekly Summary</span>
+      <button class="modal-close" onclick="closeModal('weeklyModal')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="weekly-modal-body">
+      <p id="weeklySummaryText"></p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('weeklyModal')">Close</button>
+    </div>
+  </div>
+</div>
+
 <div class="status-bar">
   <span><span class="status-dot"></span>Worker online</span>
   <span>Durable Object · persistent memory</span>
   <span id="standupCount">0 standups logged</span>
 </div>
 
-<div class="modal-overlay" id="weeklyModal">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">Weekly Summary</span>
-      <button class="modal-close" onclick="closeModal()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-    <div class="modal-body">
-      <p id="weeklySummaryText"></p>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal()">Close</button>
-    </div>
-  </div>
-</div>
-
 <script>
   const API_URL = 'https://cf-ai-standup.skim8705.workers.dev';
 
   let userId = localStorage.getItem('standup_user_id');
-  if (!userId) {
-    userId = 'user-' + crypto.randomUUID();
-    localStorage.setItem('standup_user_id', userId);
-  }
+  if (!userId) { userId = 'user-' + crypto.randomUUID(); localStorage.setItem('standup_user_id', userId); }
 
   const today = new Date().toISOString().split('T')[0];
+  let currentFormat = 'standard';
+  let teamFormat = 'standard';
+  let editingIndex = null;
+  let activeRoom = localStorage.getItem('briefly_room');
+  let teamName = localStorage.getItem('briefly_team_name');
 
-  document.getElementById('headerDate').textContent = new Date().toLocaleDateString('en-US', {
-    weekday: 'long', month: 'long', day: 'numeric',
-  });
+  document.getElementById('headerDate').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
   const textarea = document.getElementById('standup-input');
   const charCount = document.getElementById('charCount');
-
   textarea.addEventListener('input', () => {
     const len = textarea.value.length;
     charCount.textContent = `${len} / 2000`;
     charCount.classList.toggle('warn', len > 1800);
-    if (len > 0) {
-      textarea.classList.remove('error');
-      document.getElementById('emptyError').classList.remove('visible');
-    }
+    if (len > 0) { textarea.classList.remove('error'); document.getElementById('emptyError').classList.remove('visible'); }
   });
 
   loadHistory();
 
+  // ── Mode switching ──────────────────────────────────────────
+  function switchMode(mode) {
+    document.getElementById('personalMode').style.display = mode === 'personal' ? '' : 'none';
+    document.getElementById('teamMode').style.display = mode === 'team' ? '' : 'none';
+    document.getElementById('tabPersonal').classList.toggle('active', mode === 'personal');
+    document.getElementById('tabTeam').classList.toggle('active', mode === 'team');
+    if (mode === 'team') initTeamMode();
+  }
+
+  // ── Format ──────────────────────────────────────────────────
+  function setFormat(fmt) {
+    currentFormat = fmt;
+    document.querySelectorAll('#personalMode .format-pill').forEach(p => p.classList.toggle('active', p.dataset.format === fmt));
+  }
+  function setTeamFormat(fmt) {
+    teamFormat = fmt;
+    document.querySelectorAll('#teamMode .format-pill').forEach(p => p.classList.toggle('active', p.dataset.format === fmt));
+  }
+
+  // ── Generate (streaming) ────────────────────────────────────
   async function generateStandup() {
     const message = textarea.value.trim();
-    if (!message) {
-      textarea.classList.add('error');
-      document.getElementById('emptyError').classList.add('visible');
-      return;
-    }
+    if (!message) { textarea.classList.add('error'); document.getElementById('emptyError').classList.add('visible'); return; }
 
     const btn = document.getElementById('generateBtn');
     btn.disabled = true;
     btn.innerHTML = '<div class="spinner"></div> Generating…';
 
+    const card = document.getElementById('resultCard');
+    const textEl = document.getElementById('resultText');
+    textEl.innerHTML = '<span class="cursor"></span>';
+    card.classList.add('visible');
+
     try {
       const res = await fetch(`${API_URL}/api/standup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, message }),
+        body: JSON.stringify({ userId, message, format: currentFormat }),
       });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Request failed');
-      }
-
-      const data = await res.json();
-      showResult(data.summary);
-      await loadHistory();
+      if (!res.ok) throw new Error('Request failed');
+      await readStream(res, textEl, () => loadHistory());
     } catch (err) {
-      alert('Error: ' + err.message);
+      textEl.textContent = 'Error: ' + err.message;
     } finally {
       btn.disabled = false;
-      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4m2-2h-4M4 17v2m1-1H3"/></svg> Generate Standup`;
+      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4m2-2h-4M4 17v2m1-1H3"/> </svg> Generate Standup`;
     }
   }
 
-  function showResult(summary) {
-    const card = document.getElementById('resultCard');
-    const text = document.getElementById('resultText');
-    const highlighted = summary.replace(
-      /^(Yesterday:|Today:|Blockers:)/gm,
-      '<span class="line-label">$1</span>'
-    );
-    text.innerHTML = highlighted;
-    card.classList.add('visible');
-    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  async function readStream(res, textEl, onSaved) {
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let accumulated = '';
+    let buffer = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop();
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const data = line.slice(6);
+        if (data === '[DONE]') continue;
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.response) {
+            accumulated += parsed.response;
+            textEl.innerHTML = highlightLabels(accumulated) + '<span class="cursor"></span>';
+          }
+          if (parsed.type === 'saved') {
+            textEl.innerHTML = highlightLabels(accumulated);
+            if (onSaved) onSaved();
+          }
+        } catch {}
+      }
+    }
   }
 
+  function highlightLabels(text) {
+    const escaped = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return escaped.replace(/^(Yesterday:|Today:|Blockers:|✅ Done:|🔄 Doing:|🚫 Blocked:|• Yesterday:|• Today:|• Blockers:)/gm,
+      '<span class="line-label">$1</span>');
+  }
+
+  // ── Copy / Slack export ─────────────────────────────────────
   function copyStandup() {
     const text = document.getElementById('resultText').innerText;
     navigator.clipboard.writeText(text).then(() => {
       const btn = document.getElementById('copyBtn');
-      btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
-      btn.classList.add('copied');
+      btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+      btn.classList.add('active');
       setTimeout(() => {
-        btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy`;
-        btn.classList.remove('copied');
+        btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy`;
+        btn.classList.remove('active');
       }, 2000);
     });
   }
 
+  function exportSlack() {
+    const text = document.getElementById('resultText').innerText;
+    const slack = text.replace(/^(Yesterday:|Today:|Blockers:|✅ Done:|🔄 Doing:|🚫 Blocked:)/gm, '*$1*');
+    navigator.clipboard.writeText(slack).then(() => {
+      const btn = document.getElementById('slackBtn');
+      btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+      btn.classList.add('active');
+      setTimeout(() => {
+        btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg> Slack`;
+        btn.classList.remove('active');
+      }, 2000);
+    });
+  }
+
+  // ── History ─────────────────────────────────────────────────
   async function loadHistory() {
     try {
       const res = await fetch(`${API_URL}/api/history/${encodeURIComponent(userId)}`);
       if (!res.ok) return;
-      const history = await res.json();
-      renderHistory(history.reverse());
-    } catch (err) {
-      console.error('Failed to load history', err);
-    }
+      renderHistory((await res.json()).reverse());
+    } catch (err) { console.error('History load failed', err); }
   }
 
   function renderHistory(history) {
     const list = document.getElementById('historyList');
     document.getElementById('standupCount').textContent = `${history.length} standup${history.length !== 1 ? 's' : ''} logged`;
-
-    if (history.length === 0) {
-      list.innerHTML = '<div class="history-empty">No standups yet</div>';
-      return;
-    }
+    if (history.length === 0) { list.innerHTML = '<div class="history-empty">No standups yet</div>'; return; }
 
     const hasTodayEntry = history.some(h => h.date === today);
     let html = '';
+    if (!hasTodayEntry) html += `<div class="history-empty" style="padding:12px 0;border-bottom:1px solid var(--border);">No standup yet today</div>`;
 
-    if (!hasTodayEntry) {
-      html += `<div class="history-empty" style="padding:12px 0;border-bottom:1px solid var(--border);">No standup yet today</div>`;
-    }
-
-    html += history.map(entry => {
-      const isToday = entry.date === today;
-      const badge = isToday ? '<span class="today-badge">Today</span>' : '';
-      return `
-        <div class="history-item" onclick="showHistoryEntry(this)" data-summary="${encodeURIComponent(entry.summary)}">
-          <div class="history-date">${formatDate(entry.date)}${badge}</div>
-          <div class="history-preview">${escapeHtml(entry.summary)}</div>
-        </div>`;
-    }).join('');
+    html += history.map(entry => `
+      <div class="history-item">
+        <div class="history-item-top">
+          <div class="history-date">
+            ${formatDate(entry.date)}
+            ${entry.date === today ? '<span class="today-badge">Today</span>' : ''}
+          </div>
+          <div class="history-actions">
+            <button class="history-action-btn" onclick="openEdit(${entry.index}, \`${encodeURIComponent(entry.summary)}\`)">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+            <button class="history-action-btn del" onclick="deleteStandup(${entry.index})">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="history-preview" onclick="showEntry(\`${encodeURIComponent(entry.summary)}\`)">${escapeHtml(entry.summary)}</div>
+      </div>`).join('');
 
     list.innerHTML = html;
   }
 
-  function showHistoryEntry(el) {
-    const summary = decodeURIComponent(el.getAttribute('data-summary'));
-    showResult(summary);
+  function showEntry(encoded) {
+    const summary = decodeURIComponent(encoded);
+    const card = document.getElementById('resultCard');
+    document.getElementById('resultText').innerHTML = highlightLabels(summary);
+    card.classList.add('visible');
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
+  // ── Edit / Delete ───────────────────────────────────────────
+  function openEdit(index, encodedSummary) {
+    editingIndex = index;
+    document.getElementById('editText').value = decodeURIComponent(encodedSummary);
+    document.getElementById('editModal').classList.add('visible');
+  }
+
+  function closeEditModal() {
+    editingIndex = null;
+    document.getElementById('editModal').classList.remove('visible');
+  }
+
+  async function saveEdit() {
+    const summary = document.getElementById('editText').value.trim();
+    if (!summary || editingIndex === null) return;
+    try {
+      await fetch(`${API_URL}/api/standup/${encodeURIComponent(userId)}/${editingIndex}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ summary }),
+      });
+      closeEditModal();
+      loadHistory();
+    } catch (err) { alert('Failed to save: ' + err.message); }
+  }
+
+  async function deleteStandup(index) {
+    if (!confirm('Delete this standup?')) return;
+    try {
+      await fetch(`${API_URL}/api/standup/${encodeURIComponent(userId)}/${index}`, { method: 'DELETE' });
+      loadHistory();
+    } catch (err) { alert('Failed to delete: ' + err.message); }
+  }
+
+  // ── Weekly summary ──────────────────────────────────────────
   async function generateWeekly() {
     const btn = document.getElementById('weeklyBtn');
     btn.disabled = true;
     btn.innerHTML = '<div class="spinner" style="border-top-color:var(--text2)"></div>';
-
     try {
-      const res = await fetch(`${API_URL}/api/weekly/${encodeURIComponent(userId)}`, {
-        method: 'POST',
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Request failed');
-      }
-
+      const res = await fetch(`${API_URL}/api/weekly/${encodeURIComponent(userId)}`, { method: 'POST' });
+      if (!res.ok) { const e = await res.json(); throw new Error(e.error); }
       const data = await res.json();
       document.getElementById('weeklySummaryText').textContent = data.summary;
       document.getElementById('weeklyModal').classList.add('visible');
-    } catch (err) {
-      alert('Error: ' + err.message);
-    } finally {
+    } catch (err) { alert('Error: ' + err.message); }
+    finally {
       btn.disabled = false;
-      btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Weekly`;
+      btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Weekly`;
     }
   }
 
-  function closeModal() {
-    document.getElementById('weeklyModal').classList.remove('visible');
+  // ── Team rooms ──────────────────────────────────────────────
+  function initTeamMode() {
+    if (activeRoom && teamName) {
+      document.getElementById('roomSetup').style.display = 'none';
+      document.getElementById('roomActive').style.display = '';
+      document.getElementById('activeRoomCode').textContent = activeRoom;
+      loadTeamStandups();
+    } else {
+      document.getElementById('roomSetup').style.display = '';
+      document.getElementById('roomActive').style.display = 'none';
+    }
   }
 
-  document.getElementById('weeklyModal').addEventListener('click', (e) => {
-    if (e.target === e.currentTarget) closeModal();
+  function createRoom() {
+    const name = document.getElementById('teamNameInput').value.trim();
+    if (!name) { alert('Enter your display name first.'); return; }
+    const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+    setRoom(code, name);
+  }
+
+  function joinRoom() {
+    const name = document.getElementById('teamNameInput').value.trim();
+    const code = document.getElementById('roomCodeInput').value.trim().toUpperCase();
+    if (!name) { alert('Enter your display name first.'); return; }
+    if (code.length < 4) { alert('Enter a valid room code.'); return; }
+    setRoom(code, name);
+  }
+
+  function setRoom(code, name) {
+    activeRoom = code;
+    teamName = name;
+    localStorage.setItem('briefly_room', code);
+    localStorage.setItem('briefly_team_name', name);
+    initTeamMode();
+  }
+
+  function leaveRoom() {
+    activeRoom = null;
+    teamName = null;
+    localStorage.removeItem('briefly_room');
+    localStorage.removeItem('briefly_team_name');
+    initTeamMode();
+  }
+
+  function copyRoomCode() {
+    navigator.clipboard.writeText(activeRoom);
+  }
+
+  async function generateTeamStandup() {
+    const message = document.getElementById('team-standup-input').value.trim();
+    if (!message) return;
+
+    const btn = document.getElementById('teamGenerateBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<div class="spinner"></div> Generating…';
+
+    try {
+      const res = await fetch(`${API_URL}/api/room/${encodeURIComponent(activeRoom)}/standup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userName: teamName, userId, message, format: teamFormat }),
+      });
+      if (!res.ok) throw new Error('Request failed');
+
+      // Drain the stream (we don't display it inline for team mode, just save)
+      const reader = res.body.getReader();
+      while (true) {
+        const { done } = await reader.read();
+        if (done) break;
+      }
+
+      document.getElementById('team-standup-input').value = '';
+      loadTeamStandups();
+    } catch (err) { alert('Error: ' + err.message); }
+    finally {
+      btn.disabled = false;
+      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4m2-2h-4M4 17v2m1-1H3"/></svg> Post to Room`;
+    }
+  }
+
+  async function loadTeamStandups() {
+    if (!activeRoom) return;
+    try {
+      const res = await fetch(`${API_URL}/api/room/${encodeURIComponent(activeRoom)}`);
+      if (!res.ok) return;
+      const all = await res.json();
+      const todayStandups = all.filter(s => s.date === today).reverse();
+      renderTeamStandups(todayStandups);
+    } catch (err) { console.error('Team load failed', err); }
+  }
+
+  function renderTeamStandups(standups) {
+    const container = document.getElementById('teamStandups');
+    if (standups.length === 0) { container.innerHTML = '<div class="team-empty">No standups yet today</div>'; return; }
+    container.innerHTML = standups.map(s => `
+      <div class="team-member-card">
+        <div class="team-member-header">
+          <div class="team-member-avatar">${s.userName.charAt(0).toUpperCase()}</div>
+          <span class="team-member-name">${escapeHtml(s.userName)}</span>
+          <span class="team-member-date">${formatDate(s.date)}</span>
+        </div>
+        <div class="team-member-body">${highlightLabels(escapeHtml(s.summary))}</div>
+      </div>`).join('');
+  }
+
+  // ── Modals ──────────────────────────────────────────────────
+  function closeModal(id) { document.getElementById(id).classList.remove('visible'); }
+
+  document.getElementById('weeklyModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal('weeklyModal'); });
+  document.getElementById('editModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeEditModal(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeModal('weeklyModal'); closeEditModal(); }
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeModal();
-  });
-
+  // ── Utils ───────────────────────────────────────────────────
   function formatDate(dateStr) {
-    const d = new Date(dateStr + 'T00:00:00');
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   }
-
   function escapeHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 </script>
 </body>
