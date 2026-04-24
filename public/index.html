@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Briefly</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111'/%3E%3Cpath d='M13.5 21.5A2.5 2.5 0 0 0 11.5 19.5l-4.5-1.16a.5.5 0 0 1 0-.97L11.5 16.2A2.5 2.5 0 0 0 13.5 14.2l1.16-4.5a.5.5 0 0 1 .97 0L16.79 14.2A2.5 2.5 0 0 0 18.79 16.2l4.5 1.17a.5.5 0 0 1 0 .97l-4.5 1.16a2.5 2.5 0 0 0-2 2L15.63 26a.5.5 0 0 1-.97 0zM21 8v3m1.5-1.5h-3' stroke='%23f97316' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -41,7 +42,42 @@
     .header-left { display: flex; align-items: center; gap: 9px; }
     .header-icon { color: var(--accent); display: flex; align-items: center; }
     header h1 { font-size: 15px; font-weight: 600; letter-spacing: -0.02em; }
+    .header-right { display: flex; align-items: center; gap: 14px; }
     .header-date { font-size: 12px; color: var(--text2); }
+
+    .streak-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 12px; font-weight: 600; color: var(--accent);
+    }
+
+    .header-icon-btn {
+      background: transparent; border: none; color: var(--text3);
+      cursor: pointer; display: flex; align-items: center; padding: 3px;
+      border-radius: 4px; transition: color 0.15s;
+    }
+    .header-icon-btn:hover { color: var(--text2); }
+    .header-icon-btn.active { color: var(--accent); }
+
+    .reminder-wrap { position: relative; }
+    .reminder-popover {
+      position: absolute; right: 0; top: calc(100% + 8px);
+      background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: 8px; padding: 14px; width: 220px;
+      z-index: 50; box-shadow: 0 16px 40px rgba(0,0,0,0.8);
+      display: none;
+    }
+    .reminder-popover.visible { display: block; }
+    .reminder-label { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 10px; }
+    .reminder-row { display: flex; gap: 7px; align-items: center; }
+    input[type="time"] {
+      flex: 1; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 5px; color: var(--text); font-size: 13px;
+      font-family: inherit; padding: 6px 8px;
+    }
+    input[type="time"]:focus { outline: none; border-color: var(--border2); }
+    .reminder-clear { font-size: 11px; color: var(--text3); cursor: pointer; padding: 4px 0; margin-top: 6px; transition: color 0.15s; }
+    .reminder-clear:hover { color: var(--error); }
+    .reminder-status { font-size: 11px; color: var(--text3); margin-top: 8px; }
 
     /* Mode tabs */
     .mode-tabs {
@@ -84,10 +120,7 @@
     }
 
     /* Format selector */
-    .format-pills {
-      display: flex;
-      gap: 6px;
-    }
+    .format-pills { display: flex; gap: 6px; }
     .format-pill {
       padding: 5px 12px;
       border-radius: 20px;
@@ -99,11 +132,7 @@
       transition: all 0.15s;
     }
     .format-pill:hover { border-color: var(--border2); color: var(--text); }
-    .format-pill.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
+    .format-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
     .input-wrap { position: relative; }
     textarea {
@@ -125,18 +154,14 @@
     textarea::placeholder { color: var(--text3); }
 
     .input-meta {
-      position: absolute;
-      bottom: 10px;
-      left: 14px;
-      right: 14px;
-      display: flex;
-      align-items: center;
-      pointer-events: none;
+      position: absolute; bottom: 10px; left: 14px; right: 14px;
+      display: flex; align-items: center; pointer-events: none;
     }
     .error-msg { font-size: 12px; color: var(--error); display: none; }
     .error-msg.visible { display: block; }
     .char-count { font-size: 11px; color: var(--text3); margin-left: auto; }
     .char-count.warn { color: var(--error); }
+    .cmd-hint { font-size: 11px; color: var(--text3); }
 
     .btn {
       padding: 9px 16px;
@@ -182,11 +207,8 @@
     }
     .result-card.visible { display: block; }
     .result-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px; border-bottom: 1px solid var(--border);
     }
     .result-label { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.07em; }
     .result-actions { display: flex; gap: 6px; }
@@ -200,9 +222,7 @@
       font-size: 11px;
       cursor: pointer;
       transition: all 0.15s;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+      display: flex; align-items: center; gap: 5px;
     }
     .icon-btn:hover { color: var(--text); border-color: var(--border2); }
     .icon-btn.active { color: var(--success); border-color: var(--success); }
@@ -211,7 +231,6 @@
     .result-text { font-size: 14px; line-height: 1.85; white-space: pre-wrap; color: var(--text); }
     .result-text .line-label { color: var(--accent); font-weight: 600; }
 
-    /* Cursor blink for streaming */
     .cursor { display: inline-block; width: 2px; height: 14px; background: var(--accent); animation: blink 0.8s step-end infinite; vertical-align: text-bottom; margin-left: 1px; }
     @keyframes blink { 50% { opacity: 0; } }
 
@@ -225,6 +244,22 @@
     }
     .sidebar-header { display: flex; align-items: center; justify-content: space-between; }
     .sidebar-label { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.07em; }
+    .sidebar-actions { display: flex; gap: 6px; }
+
+    .search-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 12px;
+      font-family: inherit;
+      padding: 6px 10px;
+      transition: border-color 0.15s;
+    }
+    .search-input:focus { outline: none; border-color: var(--border2); }
+    .search-input::placeholder { color: var(--text3); }
+
     .history-list { display: flex; flex-direction: column; }
 
     .history-item {
@@ -252,8 +287,7 @@
       color: var(--text3);
       font-size: 10px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
+      display: flex; align-items: center;
       transition: all 0.15s;
     }
     .history-action-btn:hover { color: var(--text2); border-color: var(--border2); }
@@ -270,94 +304,74 @@
       text-transform: uppercase; letter-spacing: 0.06em;
     }
 
+    /* Calendar */
+    .cal-section { display: flex; flex-direction: column; gap: 10px; }
+    .cal-month-header { display: flex; align-items: center; justify-content: space-between; }
+    .cal-nav { background: none; border: none; color: var(--text3); cursor: pointer; padding: 2px 5px; border-radius: 3px; font-size: 13px; transition: color 0.15s; }
+    .cal-nav:hover { color: var(--text2); }
+    .cal-month-name { font-size: 12px; color: var(--text2); font-weight: 500; }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 1px;
+    }
+    .cal-day-hdr { font-size: 9px; color: var(--text3); text-align: center; padding: 3px 0; font-weight: 600; text-transform: uppercase; }
+    .cal-cell {
+      font-size: 10px; text-align: center;
+      padding: 4px 0 2px;
+      border-radius: 3px;
+      color: var(--text3);
+      display: flex; flex-direction: column; align-items: center;
+      gap: 2px; line-height: 1;
+      min-height: 24px;
+    }
+    .cal-cell.other-month { opacity: 0.3; }
+    .cal-cell.cal-today { color: var(--text); font-weight: 700; background: var(--bg3); }
+    .cal-cell.has-standup { cursor: pointer; color: var(--text); }
+    .cal-cell.has-standup:hover { background: var(--bg3); }
+    .cal-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
     /* Team mode */
     .team-panel { display: flex; flex-direction: column; gap: 20px; }
-
     .room-setup {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 20px;
+      display: flex; flex-direction: column; gap: 14px;
     }
     .room-setup h3 { font-size: 14px; font-weight: 600; }
     .room-setup p { font-size: 12px; color: var(--text2); }
 
     .input-row { display: flex; gap: 8px; }
     .text-input {
-      flex: 1;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
-      font-size: 13px;
-      font-family: inherit;
-      padding: 8px 12px;
-      transition: border-color 0.15s;
+      flex: 1; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 6px; color: var(--text); font-size: 13px;
+      font-family: inherit; padding: 8px 12px; transition: border-color 0.15s;
     }
     .text-input:focus { outline: none; border-color: var(--border2); }
     .text-input::placeholder { color: var(--text3); }
 
-    .room-code {
-      font-family: monospace;
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: 0.1em;
-    }
-
+    .room-code { font-family: monospace; font-size: 24px; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; }
     .team-standups { display: flex; flex-direction: column; gap: 12px; }
-    .team-member-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .team-member-header {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .team-member-avatar {
-      width: 24px; height: 24px;
-      border-radius: 50%;
-      background: var(--accent);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 700; color: #fff;
-      flex-shrink: 0;
-    }
+    .team-member-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .team-member-header { padding: 10px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .team-member-avatar { width: 24px; height: 24px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; }
     .team-member-name { font-size: 13px; font-weight: 600; }
     .team-member-date { font-size: 11px; color: var(--text2); margin-left: auto; }
     .team-member-body { padding: 14px; font-size: 13px; line-height: 1.8; white-space: pre-wrap; color: var(--text2); }
     .team-member-body .line-label { color: var(--accent); font-weight: 600; }
     .team-empty { font-size: 13px; color: var(--text3); text-align: center; padding: 40px 0; }
 
-    /* Edit modal */
+    /* Modals */
     .modal-overlay {
       position: fixed; inset: 0;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(8px);
-      z-index: 100;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+      z-index: 100; display: none; align-items: center; justify-content: center; padding: 24px;
     }
     .modal-overlay.visible { display: flex; }
     .modal {
-      background: var(--bg2);
-      border: 1px solid var(--border2);
-      border-radius: 10px;
-      width: 100%;
-      max-width: 520px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 40px 100px rgba(0,0,0,0.9);
-      animation: fadeUp 0.15s ease;
+      background: var(--bg2); border: 1px solid var(--border2); border-radius: 10px;
+      width: 100%; max-width: 520px; display: flex; flex-direction: column;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.9); animation: fadeUp 0.15s ease;
     }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--border); }
@@ -367,18 +381,14 @@
     .modal-body { padding: 18px; display: flex; flex-direction: column; gap: 12px; }
     .modal-body textarea { min-height: 200px; padding-bottom: 14px; }
     .modal-footer { padding: 12px 18px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; }
-
-    /* Weekly modal */
     .weekly-modal-body { padding: 20px; overflow-y: auto; max-height: 60vh; }
     .weekly-modal-body p { font-size: 14px; line-height: 1.85; white-space: pre-wrap; color: var(--text2); }
 
     /* Status bar */
     .status-bar {
       position: fixed; bottom: 0; left: 0; right: 0;
-      padding: 8px 32px;
-      border-top: 1px solid var(--border);
-      display: flex; gap: 20px;
-      font-size: 11px; color: var(--text3);
+      padding: 8px 32px; border-top: 1px solid var(--border);
+      display: flex; gap: 20px; font-size: 11px; color: var(--text3);
       background: var(--bg);
     }
     .status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--success); display: inline-block; margin-right: 5px; vertical-align: middle; }
@@ -401,7 +411,27 @@
     </div>
     <h1>Briefly</h1>
   </div>
-  <span class="header-date" id="headerDate"></span>
+  <div class="header-right">
+    <div class="streak-badge" id="streakBadge" style="display:none;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="var(--accent)" stroke="none"><path d="M12 2C9.5 7 7 9.5 7 13a5 5 0 0010 0c0-3.5-2.5-6-5-11zm0 16a3 3 0 01-3-3c0-1.8 1-3.2 3-5 2 1.8 3 3.2 3 5a3 3 0 01-3 3z"/></svg>
+      <span id="streakCount">0</span>
+    </div>
+    <div class="reminder-wrap">
+      <button class="header-icon-btn" id="reminderBtn" onclick="toggleReminderPopover()" title="Set daily reminder">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      </button>
+      <div class="reminder-popover" id="reminderPopover">
+        <div class="reminder-label">Daily Reminder</div>
+        <div class="reminder-row">
+          <input type="time" id="reminderTime" />
+          <button class="btn btn-primary" style="padding:5px 10px;font-size:12px;" onclick="saveReminder()">Set</button>
+        </div>
+        <div class="reminder-status" id="reminderStatus"></div>
+        <div class="reminder-clear" id="reminderClear" onclick="clearReminder()" style="display:none;">✕ Clear reminder</div>
+      </div>
+    </div>
+    <span class="header-date" id="headerDate"></span>
+  </div>
 </header>
 
 <div class="mode-tabs">
@@ -428,6 +458,7 @@
       <textarea id="standup-input" placeholder="What did you work on? Paste tasks, commits, or notes — AI will format your standup." maxlength="2000"></textarea>
       <div class="input-meta">
         <span class="error-msg" id="emptyError">Please enter something before generating.</span>
+        <span class="cmd-hint">⌘↵ to generate</span>
         <span class="char-count" id="charCount">0 / 2000</span>
       </div>
     </div>
@@ -462,22 +493,43 @@
   <div class="sidebar">
     <div class="sidebar-header">
       <span class="sidebar-label">History</span>
-      <button class="btn btn-ghost" id="weeklyBtn" onclick="generateWeekly()" style="padding:5px 11px;font-size:12px;">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Weekly
-      </button>
+      <div class="sidebar-actions">
+        <button class="btn btn-ghost" onclick="exportCSV()" style="padding:5px 11px;font-size:12px;" title="Export as CSV">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          CSV
+        </button>
+        <button class="btn btn-ghost" id="weeklyBtn" onclick="generateWeekly()" style="padding:5px 11px;font-size:12px;">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Weekly
+        </button>
+      </div>
     </div>
+
+    <input type="text" class="search-input" id="searchInput" placeholder="Search standups…" oninput="filterHistory(this.value)" />
+
     <div class="history-list" id="historyList">
       <div class="history-empty">No standups yet</div>
+    </div>
+
+    <!-- Calendar -->
+    <div class="cal-section">
+      <div class="sidebar-header" style="margin-bottom:2px;">
+        <span class="sidebar-label">Calendar</span>
+      </div>
+      <div class="cal-month-header">
+        <button class="cal-nav" onclick="calNav(-1)">‹</button>
+        <span class="cal-month-name" id="calMonthName"></span>
+        <button class="cal-nav" onclick="calNav(1)">›</button>
+      </div>
+      <div id="calGrid"></div>
     </div>
   </div>
 </div>
 
 <!-- TEAM MODE -->
-<div id="teamMode" style="display:none;" class="layout" style="grid-template-columns:1fr;">
+<div id="teamMode" style="display:none;" class="layout">
   <div class="team-panel" style="max-width:680px;">
 
-    <!-- Room not set -->
     <div id="roomSetup">
       <div class="room-setup">
         <h3>Create or join a room</h3>
@@ -501,7 +553,6 @@
       </div>
     </div>
 
-    <!-- Room active -->
     <div id="roomActive" style="display:none;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
         <div>
@@ -599,11 +650,15 @@
   let editingIndex = null;
   let activeRoom = localStorage.getItem('briefly_room');
   let teamName = localStorage.getItem('briefly_team_name');
+  let historyData = [];
+  let calYear = new Date().getFullYear();
+  let calMonth = new Date().getMonth();
 
   document.getElementById('headerDate').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
   const textarea = document.getElementById('standup-input');
   const charCount = document.getElementById('charCount');
+
   textarea.addEventListener('input', () => {
     const len = textarea.value.length;
     charCount.textContent = `${len} / 2000`;
@@ -611,7 +666,12 @@
     if (len > 0) { textarea.classList.remove('error'); document.getElementById('emptyError').classList.remove('visible'); }
   });
 
+  textarea.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); generateStandup(); }
+  });
+
   loadHistory();
+  initReminder();
 
   // ── Mode switching ──────────────────────────────────────────
   function switchMode(mode) {
@@ -727,23 +787,57 @@
     });
   }
 
+  // ── CSV Export ──────────────────────────────────────────────
+  function exportCSV() {
+    if (historyData.length === 0) { alert('No standups to export.'); return; }
+    const rows = [['Date', 'Format', 'Summary', 'Raw Input']];
+    historyData.forEach(h => {
+      rows.push([
+        h.date,
+        h.format || 'standard',
+        '"' + (h.summary || '').replace(/"/g, '""') + '"',
+        '"' + (h.raw || '').replace(/"/g, '""') + '"',
+      ]);
+    });
+    const csv = rows.map(r => r.join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `briefly-${today}.csv`; a.click();
+    URL.revokeObjectURL(url);
+  }
+
   // ── History ─────────────────────────────────────────────────
   async function loadHistory() {
     try {
       const res = await fetch(`${API_URL}/api/history/${encodeURIComponent(userId)}`);
       if (!res.ok) return;
-      renderHistory((await res.json()).reverse());
+      historyData = await res.json();
+      renderHistory(historyData.slice().reverse());
+      updateStreak();
+      renderCalendar();
     } catch (err) { console.error('History load failed', err); }
+  }
+
+  function filterHistory(query) {
+    if (!query.trim()) { renderHistory(historyData.slice().reverse()); return; }
+    const q = query.toLowerCase();
+    const filtered = historyData.filter(h =>
+      (h.summary || '').toLowerCase().includes(q) || (h.raw || '').toLowerCase().includes(q)
+    );
+    renderHistory(filtered.slice().reverse());
   }
 
   function renderHistory(history) {
     const list = document.getElementById('historyList');
-    document.getElementById('standupCount').textContent = `${history.length} standup${history.length !== 1 ? 's' : ''} logged`;
+    document.getElementById('standupCount').textContent = `${historyData.length} standup${historyData.length !== 1 ? 's' : ''} logged`;
     if (history.length === 0) { list.innerHTML = '<div class="history-empty">No standups yet</div>'; return; }
 
     const hasTodayEntry = history.some(h => h.date === today);
     let html = '';
-    if (!hasTodayEntry) html += `<div class="history-empty" style="padding:12px 0;border-bottom:1px solid var(--border);">No standup yet today</div>`;
+    if (!hasTodayEntry && !document.getElementById('searchInput').value) {
+      html += `<div class="history-empty" style="padding:12px 0;border-bottom:1px solid var(--border);">No standup yet today</div>`;
+    }
 
     html += history.map(entry => `
       <div class="history-item">
@@ -773,6 +867,70 @@
     document.getElementById('resultText').innerHTML = highlightLabels(summary);
     card.classList.add('visible');
     card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // ── Streak ──────────────────────────────────────────────────
+  function updateStreak() {
+    const streak = calcStreak(historyData);
+    const badge = document.getElementById('streakBadge');
+    if (streak >= 2) {
+      badge.style.display = 'inline-flex';
+      document.getElementById('streakCount').textContent = streak;
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+
+  function calcStreak(history) {
+    if (!history.length) return 0;
+    const dates = [...new Set(history.map(h => h.date))].sort().reverse();
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+    if (dates[0] !== today && dates[0] !== yesterday) return 0;
+    let streak = 0;
+    let cursor = new Date(dates[0] + 'T12:00:00');
+    for (const date of dates) {
+      if (date === cursor.toISOString().split('T')[0]) {
+        streak++;
+        cursor = new Date(cursor.getTime() - 86400000);
+      } else break;
+    }
+    return streak;
+  }
+
+  // ── Calendar ────────────────────────────────────────────────
+  function calNav(dir) {
+    calMonth += dir;
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    if (calMonth < 0) { calMonth = 11; calYear--; }
+    renderCalendar();
+  }
+
+  function renderCalendar() {
+    const standupDates = new Map();
+    historyData.forEach(h => standupDates.set(h.date, h));
+
+    const monthName = new Date(calYear, calMonth, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    document.getElementById('calMonthName').textContent = monthName;
+
+    const firstDay = new Date(calYear, calMonth, 1).getDay();
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    const dayHeaders = ['S','M','T','W','T','F','S'];
+
+    let html = '<div class="cal-grid">';
+    dayHeaders.forEach(d => { html += `<div class="cal-day-hdr">${d}</div>`; });
+    for (let i = 0; i < firstDay; i++) html += '<div class="cal-cell other-month"></div>';
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const entry = standupDates.get(dateStr);
+      const isToday = dateStr === today;
+      const cls = ['cal-cell', isToday ? 'cal-today' : '', entry ? 'has-standup' : ''].filter(Boolean).join(' ');
+      const onclick = entry ? `onclick="showEntry('${encodeURIComponent(entry.summary)}')"` : '';
+      html += `<div class="${cls}" ${onclick}>${d}${entry ? '<div class="cal-dot"></div>' : ''}</div>`;
+    }
+
+    html += '</div>';
+    document.getElementById('calGrid').innerHTML = html;
   }
 
   // ── Edit / Delete ───────────────────────────────────────────
@@ -827,6 +985,75 @@
     }
   }
 
+  // ── Reminder notifications ──────────────────────────────────
+  function initReminder() {
+    const saved = localStorage.getItem('briefly_reminder');
+    if (saved) {
+      document.getElementById('reminderBtn').classList.add('active');
+      document.getElementById('reminderTime').value = saved;
+      document.getElementById('reminderStatus').textContent = `Reminder set for ${formatTime(saved)}`;
+      document.getElementById('reminderClear').style.display = '';
+    }
+    setInterval(checkReminder, 60000);
+    checkReminder();
+  }
+
+  function toggleReminderPopover() {
+    document.getElementById('reminderPopover').classList.toggle('visible');
+  }
+
+  function saveReminder() {
+    const time = document.getElementById('reminderTime').value;
+    if (!time) return;
+    if (Notification.permission === 'default') {
+      Notification.requestPermission().then(p => {
+        if (p === 'granted') persistReminder(time);
+        else document.getElementById('reminderStatus').textContent = 'Notifications blocked.';
+      });
+    } else if (Notification.permission === 'granted') {
+      persistReminder(time);
+    } else {
+      document.getElementById('reminderStatus').textContent = 'Notifications blocked in browser settings.';
+    }
+  }
+
+  function persistReminder(time) {
+    localStorage.setItem('briefly_reminder', time);
+    document.getElementById('reminderBtn').classList.add('active');
+    document.getElementById('reminderStatus').textContent = `Reminder set for ${formatTime(time)}`;
+    document.getElementById('reminderClear').style.display = '';
+    document.getElementById('reminderPopover').classList.remove('visible');
+  }
+
+  function clearReminder() {
+    localStorage.removeItem('briefly_reminder');
+    localStorage.removeItem('briefly_reminder_fired');
+    document.getElementById('reminderBtn').classList.remove('active');
+    document.getElementById('reminderStatus').textContent = '';
+    document.getElementById('reminderTime').value = '';
+    document.getElementById('reminderClear').style.display = 'none';
+  }
+
+  function checkReminder() {
+    const saved = localStorage.getItem('briefly_reminder');
+    if (!saved || Notification.permission !== 'granted') return;
+    const [h, m] = saved.split(':').map(Number);
+    const now = new Date();
+    if (now.getHours() === h && now.getMinutes() === m) {
+      const fired = localStorage.getItem('briefly_reminder_fired');
+      if (fired !== today) {
+        localStorage.setItem('briefly_reminder_fired', today);
+        new Notification('Briefly — time for your standup', { body: 'Keep your streak going! Open Briefly to log today\'s standup.', icon: '' });
+      }
+    }
+  }
+
+  function formatTime(t) {
+    const [h, m] = t.split(':').map(Number);
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    return `${h % 12 || 12}:${String(m).padStart(2,'0')} ${ampm}`;
+  }
+
   // ── Team rooms ──────────────────────────────────────────────
   function initTeamMode() {
     if (activeRoom && teamName) {
@@ -856,33 +1083,27 @@
   }
 
   function setRoom(code, name) {
-    activeRoom = code;
-    teamName = name;
+    activeRoom = code; teamName = name;
     localStorage.setItem('briefly_room', code);
     localStorage.setItem('briefly_team_name', name);
     initTeamMode();
   }
 
   function leaveRoom() {
-    activeRoom = null;
-    teamName = null;
+    activeRoom = null; teamName = null;
     localStorage.removeItem('briefly_room');
     localStorage.removeItem('briefly_team_name');
     initTeamMode();
   }
 
-  function copyRoomCode() {
-    navigator.clipboard.writeText(activeRoom);
-  }
+  function copyRoomCode() { navigator.clipboard.writeText(activeRoom); }
 
   async function generateTeamStandup() {
     const message = document.getElementById('team-standup-input').value.trim();
     if (!message) return;
-
     const btn = document.getElementById('teamGenerateBtn');
     btn.disabled = true;
     btn.innerHTML = '<div class="spinner"></div> Generating…';
-
     try {
       const res = await fetch(`${API_URL}/api/room/${encodeURIComponent(activeRoom)}/standup`, {
         method: 'POST',
@@ -890,14 +1111,8 @@
         body: JSON.stringify({ userName: teamName, userId, message, format: teamFormat }),
       });
       if (!res.ok) throw new Error('Request failed');
-
-      // Drain the stream (we don't display it inline for team mode, just save)
       const reader = res.body.getReader();
-      while (true) {
-        const { done } = await reader.read();
-        if (done) break;
-      }
-
+      while (true) { const { done } = await reader.read(); if (done) break; }
       document.getElementById('team-standup-input').value = '';
       loadTeamStandups();
     } catch (err) { alert('Error: ' + err.message); }
@@ -913,8 +1128,7 @@
       const res = await fetch(`${API_URL}/api/room/${encodeURIComponent(activeRoom)}`);
       if (!res.ok) return;
       const all = await res.json();
-      const todayStandups = all.filter(s => s.date === today).reverse();
-      renderTeamStandups(todayStandups);
+      renderTeamStandups(all.filter(s => s.date === today).reverse());
     } catch (err) { console.error('Team load failed', err); }
   }
 
@@ -938,7 +1152,11 @@
   document.getElementById('weeklyModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal('weeklyModal'); });
   document.getElementById('editModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeEditModal(); });
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeModal('weeklyModal'); closeEditModal(); }
+    if (e.key === 'Escape') { closeModal('weeklyModal'); closeEditModal(); document.getElementById('reminderPopover').classList.remove('visible'); }
+  });
+  document.addEventListener('click', e => {
+    const wrap = document.querySelector('.reminder-wrap');
+    if (wrap && !wrap.contains(e.target)) document.getElementById('reminderPopover').classList.remove('visible');
   });
 
   // ── Utils ───────────────────────────────────────────────────
