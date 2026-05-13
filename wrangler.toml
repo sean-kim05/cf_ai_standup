@@ -1,4 +1,4 @@
-name = "cf-ai-standup"
+name = "briefly"
 main = "src/index.js"
 compatibility_date = "2025-01-01"
 
